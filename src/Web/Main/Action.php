@@ -1,0 +1,58 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Web\Main;
+
+use App\Data\Entities\Category;
+use App\Data\Entities\Post;
+use App\Domain\Site\SiteManagerInterface;
+use App\Web\NotFound\NotFoundHandler;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Yiisoft\Http\Status;
+use Yiisoft\Router\HydratorAttribute\RouteArgument;
+use Yiisoft\Yii\View\Renderer\WebViewRenderer;
+
+final readonly class Action
+{
+    public function __construct(
+        private SiteManagerInterface     $siteManager,
+        private ResponseFactoryInterface $responseFactory,
+        private NotFoundHandler          $notFoundHandler,
+        private WebViewRenderer          $viewRenderer)
+    {
+    }
+
+    public function __invoke(
+        ServerRequestInterface           $request,
+        #[RouteArgument('slug')] ?string $slug = null): ResponseInterface
+    {
+        if ($slug === $this->siteManager->getHomePageSlug()) {
+            return $this->responseFactory
+                ->createResponse(Status::MOVED_PERMANENTLY)
+                ->withHeader('Location', '/');
+        }
+        $entity = $this->siteManager->findEntityBySlug($slug);
+        if ($entity instanceof Post) {
+            return $this->viewRenderer->render(
+                __DIR__ . '/post_template',
+                [
+                    'post' => $entity,
+                    'isHeaderDisplayed' => $slug !== null
+                ]
+            );
+        } else if ($entity instanceof Category) {
+            return $this->viewRenderer->render(
+                __DIR__ . '/category_template',
+                [
+                    'category' => $entity,
+                    'dataReader' => $this->siteManager->getDataReaderForCategory($entity)
+                ]
+            );
+        }
+
+        return $this->notFoundHandler->handle($request);
+    }
+}
