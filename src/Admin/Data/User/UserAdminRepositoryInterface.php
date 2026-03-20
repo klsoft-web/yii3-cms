@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Admin\Data\User;
+
+use App\Admin\Data\Shared\EntityChangedResult;
+use Klsoft\Yii3CmsCore\Data\Entities\User;
+use Throwable;
+
+interface UserAdminRepositoryInterface
+{
+    public function create(): UserWithRoles;
+
+    /**
+     * @throws Throwable
+     */
+    public function save(UserWithRoles $userWithRoles): EntityChangedResult;
+
+    /**
+     * @throws Throwable
+     */
+    public function delete(array $ids): array;
+
+    /**
+     * @throws Throwable
+     */
+    public function find(string $id): UserWithRoles;
+    public function findByNameOrEmail(string $name, string $email): ?User;
+}
