@@ -40,7 +40,7 @@ return [
         return new Cache(new DoctrineCache($container->get(EntityManagerInterface::class)));
     },
 
-    CacheItemPoolInterface::class => ArrayAdapter::class,
+    CacheItemPoolInterface::class => ArrayAdapter::class, //One of the following adapters should be used instead: Psr16Adapter, RedisAdapter, MemcachedAdapter, DoctrineDbalAdapter, and so forth.
 
     Configuration::class => static function (ContainerInterface $container) use ($params) {
         $config = ORMSetup::createAttributeMetadataConfiguration(
