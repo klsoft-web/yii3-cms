@@ -1,0 +1,35 @@
+﻿.breadcrumb-item span {
+    color: var(--bs-link-color);
+    cursor: pointer;
+}
+
+.file-item {
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+}
+
+.file-item-img-container {
+    height: 120px;
+}
+
+.file-item-img-container img {
+    max-height: 100%;
+    opacity: 0.8;
+}
+
+.file-item-img-container img:hover {
+    opacity: 1;
+}
+
+.file-item .bi-file:hover {
+    background-color: var(--bs-tertiary-bg);
+}
+
+.file-item .bi-file {
+    font-size: 2rem;
+}
+
+.file-item .bi-folder {
+    font-size: 3rem;
+}
