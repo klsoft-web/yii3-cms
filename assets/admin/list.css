@@ -1,0 +1,15 @@
+.nav-item-icon {
+    font-size: 1.4rem;
+}
+
+#entities-checkbox-header {
+    width: 30px;
+}
+
+.entity-item-editable {
+    cursor: pointer;
+}
+
+.entity-item-editable:hover > td {
+    background-color: var(--bs-tertiary-bg);
+}
