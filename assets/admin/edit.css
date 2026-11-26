@@ -1,0 +1,10 @@
+.summary-img{
+    max-width: 360px;
+}
+
+.summary-img-icon
+{
+    font-size: 5rem;
+    line-height: 0;
+    cursor: pointer;
+}
